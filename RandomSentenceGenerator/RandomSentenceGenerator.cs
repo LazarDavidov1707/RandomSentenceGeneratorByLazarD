@@ -6,38 +6,50 @@ namespace RandomSentenceGenerator
     {
         static void Main(string[] args)
         {
-            /*
-             To create our sentences we are going to need: names, places, verbs, nouns, adverbs and details.
-             The sentence that we will create is based on the following model:
-               •	One sentence needs [Who from where] [Action] [Detail] to be created.
-               o	"Who from where" example: [Name + from + Place] ("David from London").
-               o	"Action" example: [Adverb] + [Verb] + [Noun] ("calmly watched the sunset").
-               o	"Detail" example: "near the river", "at home", "in the park".
-                         */
-            string[] names = { "Peter", "Michell", "Jane", "Steve" };
-            string[] places = { "Sofia", "Plovdiv", "Varna", "Burgas" };
-            string[] verbs = { "eats", "holds", "sees", "plays with", "brings"};
-            string[] nouns = { "stones", "cake", "apple", "laptop", "bikes" };
-            string[] adverbs = { "slowly", "diligently", "warmly", "sadly", "rapidly" };
-            string[] details = { "near the river", "at home", "in the park" };
-            Console.WriteLine("Hello, this is your first random-generated sentence!");
-            while (true)
+            //lists of data for sentences; names is read-only!
+            Console.WriteLine("Hello, welcome to random sentence generator!");
+            Console.WriteLine();
+            Console.WriteLine("Please, enter places, verbs, nouns, adverbs and details. Names are already entered!");
+            string[] names = { "Peter", "Michell", "Jane", "Steve", "Mary", "Clayton", "Justin", "Rebecca" };
+            string[] places = Console.ReadLine().Split(", ").ToArray();
+            string[] verbs = Console.ReadLine().Split(", ").ToArray();
+            string[] nouns = Console.ReadLine().Split(", ").ToArray();
+            string[] adverbs = Console.ReadLine().Split(", ").ToArray();
+            string[] details = Console.ReadLine().Split(", ").ToArray();
+            Separator();
+            
+            Console.WriteLine("Please, enter a name or type \"Exit\" to stop the generator!:");
+            string inputName;
+            while ((inputName = Console.ReadLine()) != "Exit")
             {
-                string name = GetRandomWord(names);
-                string place = GetRandomWord(places);
-                string verb = GetRandomWord(verbs);
-                string noun = GetRandomWord(nouns);
-                string adverb = GetRandomWord(adverbs);
-                string detail = GetRandomWord(details);
-                List<string> sentence = new(){ name, "form", place, adverb, verb, noun, detail};
-                string output = string.Join(' ', sentence);
-                Console.WriteLine(output+".");
-                Console.WriteLine("Click [Enter] to generate a new one.");
-                string control;
-                if ((control = Console.ReadLine()) != "")
+                if (!names.Contains(inputName))
                 {
-                    break;
+                    Console.WriteLine($"{inputName} is missing!");
+                    Separator();
+                    continue;
                 }
+                string place = GetRandomWord(places);
+                string personLocation = $"{inputName} from {place}";
+                Console.WriteLine($"Let's see what {personLocation} is the doing.");
+                Console.WriteLine("Press any key to continue...");
+                string command;
+                while ((command = Console.ReadLine()) != "Enough!")
+                {
+                    //random sentence logic
+                    string verb = GetRandomWord(verbs);
+                    string noun = GetRandomWord(nouns);
+                    string adverb = GetRandomWord(adverbs);
+                    string detail = GetRandomWord(details);
+                    List<string> sentence = new(){ inputName, "form", place, adverb, verb, noun, detail};
+                    string output = string.Join(' ', sentence);
+                    Console.WriteLine(output+".");
+                    
+                    //controls
+                    Console.WriteLine();
+                    Console.WriteLine($"Press any key to see what {inputName} is doing next.");
+                    Console.WriteLine("Type \"Enough!\" to move on to another person.");
+                }
+                Separator();
             }
         }
         
@@ -48,6 +60,12 @@ namespace RandomSentenceGenerator
             int randomIndex = rnd.Next(words.Length);
             string randomWord = words[randomIndex];
             return randomWord;
+        }
+        
+        //separator method
+        static void Separator()
+        {
+            Console.WriteLine("-----------------------------------------------------------");
         }
     }
 }
