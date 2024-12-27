@@ -40,7 +40,7 @@ namespace RandomSentenceGenerator
                     string noun = GetRandomWord(nouns);
                     string adverb = GetRandomWord(adverbs);
                     string detail = GetRandomWord(details);
-                    List<string> sentence = new(){ inputName, "form", place, adverb, verb, noun, detail};
+                    List<string> sentence = new(){ personLocation, adverb, verb, noun, detail};
                     string output = string.Join(' ', sentence);
                     Console.WriteLine(output+".");
                     
